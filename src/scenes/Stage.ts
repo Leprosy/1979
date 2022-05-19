@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { Bullet } from "../entities/Bullet";
-import { Enemy, EnemyBehavior } from "../entities/Enemy";
+import { Enemy } from "../entities/enemy";
+import { playerController } from "../helpers/PlayerController";
 
 export class Stage extends Phaser.Scene {
   keys: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -40,18 +41,7 @@ export class Stage extends Phaser.Scene {
     this.enemies.list.forEach((enemy) => enemy.update());
 
     // Check keys
-    if (this.keys.up.isDown) {
-      this.P1.y -= this.speed;
-    }
-    if (this.keys.down.isDown) {
-      this.P1.y += this.speed;
-    }
-    if (this.keys.left.isDown) {
-      this.P1.x -= this.speed;
-    }
-    if (this.keys.right.isDown) {
-      this.P1.x += this.speed;
-    }
+    playerController(this.keys, this.P1, this.speed);
 
     if (this.keys.a.isDown && this.canSpawn) {
       this.canSpawn = false;
