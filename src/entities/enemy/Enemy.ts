@@ -1,8 +1,8 @@
 import Phaser from "phaser";
 import { EnemyDefinition, EnemyType } from "./types";
 import { EnemyDefinitions } from "./EnemyDefinitions";
-import { gameConfig } from "../../config";
 import { Bullet } from "../Bullet";
+import { isInsideScreen } from "../../helpers/screen";
 
 export class Enemy extends Phaser.GameObjects.Rectangle {
   definition: EnemyDefinition;
@@ -18,11 +18,9 @@ export class Enemy extends Phaser.GameObjects.Rectangle {
 
     this.timerEvents = [
       this.scene.time.addEvent({
-        delay: 1000,
+        delay: 1000, // TODO: game tics in config
         callback: () => {
-          console.log("Trying to fire");
           if (25 < Math.random() * 100) {
-            console.log("Bang");
             const origin = { x: this.x, y: this.y };
             const target = { x: this.scene.P1.x, y: this.scene.P1.y };
             const bullet = new Bullet(this.scene, origin, target, 5);
@@ -38,6 +36,10 @@ export class Enemy extends Phaser.GameObjects.Rectangle {
 
   update() {
     this.definition.update(this);
+
+    if (!isInsideScreen(this.x, this.y)) {
+      this.destroy();
+    }
   }
 
   destroy(fromScene?: boolean): void {

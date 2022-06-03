@@ -10,29 +10,24 @@ export const EnemyDefinitions: Record<EnemyType, EnemyDefinition> = {
     update: (enemy: Enemy) => {
       const speed = 5;
       const shootChance = 1;
-
       enemy.y += speed;
-
-      if (enemy.y > gameConfig.height) {
-        enemy.destroy();
-      }
     },
   },
 
   LeftRight: {
     startPosition: () => {
-      return { x: Phaser.Math.RND.between(0, gameConfig.width), y: 0 };
+      return { x: 0, y: 10 };
     },
     update: (enemy: Enemy) => {
-      const speedY = 1;
-      const speedX = 20;
+      const speed = 5;
       const shootChance = 2;
 
-      enemy.y += speedY;
-      enemy.x += Math.random() * speedX * 2 - speedX;
-
-      if (enemy.y > gameConfig.height) {
-        enemy.destroy();
+      if (enemy.x < gameConfig.width * 0.9 && enemy.y == 10) {
+        enemy.x += speed;
+      }
+      if (enemy.x >= gameConfig.width * 0.9 || enemy.y > 10) {
+        enemy.x -= speed / 2;
+        enemy.y += speed;
       }
     },
   },
