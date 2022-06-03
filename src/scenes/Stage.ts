@@ -60,7 +60,9 @@ export class Stage extends Phaser.Scene {
 
     if (this.keys.space.isDown && this.canFire) {
       this.canFire = false;
-      const bullet = new Bullet(this, this.P1.x, this.P1.y, this.speed * 2);
+      const origin = { x: this.P1.x, y: this.P1.y };
+      const target = { x: this.P1.x, y: 0 };
+      const bullet = new Bullet(this, origin, target, this.speed * 2);
       this.bullets.add(bullet);
       this.time.delayedCall(this.cooldown * 1000, () => (this.canFire = true), [], this);
       console.log("Bullets:", this.bullets.list);

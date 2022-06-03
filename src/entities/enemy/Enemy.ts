@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 import { EnemyDefinition, EnemyType } from "./types";
 import { EnemyDefinitions } from "./EnemyDefinitions";
+import { gameConfig } from "../../config";
+import { Bullet } from "../Bullet";
 
 export class Enemy extends Phaser.GameObjects.Rectangle {
   definition: EnemyDefinition;
@@ -19,7 +21,14 @@ export class Enemy extends Phaser.GameObjects.Rectangle {
         delay: 1000,
         callback: () => {
           console.log("Trying to fire");
-          if (25 < Math.random() * 100) console.log("Bang");
+          if (25 < Math.random() * 100) {
+            console.log("Bang");
+            const origin = { x: this.x, y: this.y };
+            const target = { x: this.x, y: gameConfig.height };
+            const bullet = new Bullet(this.scene, origin, target, 5);
+            this.scene.bullets.add(bullet);
+            console.log("Bullets:", this.scene.bullets.list);
+          }
         },
         callbackScope: this,
         loop: true,

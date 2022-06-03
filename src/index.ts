@@ -25,5 +25,5 @@ class SimpleGame {
 }
 
 window.onload = () => {
-  var game = new SimpleGame();
+  var game = new SimpleGame(); // TODO: Use this as a global config ?
 };
