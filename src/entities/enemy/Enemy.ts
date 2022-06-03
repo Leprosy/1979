@@ -24,7 +24,7 @@ export class Enemy extends Phaser.GameObjects.Rectangle {
           if (25 < Math.random() * 100) {
             console.log("Bang");
             const origin = { x: this.x, y: this.y };
-            const target = { x: this.x, y: gameConfig.height };
+            const target = { x: this.scene.P1.x, y: this.scene.P1.y };
             const bullet = new Bullet(this.scene, origin, target, 5);
             this.scene.bullets.add(bullet);
             console.log("Bullets:", this.scene.bullets.list);
