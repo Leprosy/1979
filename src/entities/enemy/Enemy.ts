@@ -1,14 +1,18 @@
 import Phaser from "phaser";
-import { EnemyBehavior } from "./constants";
-import { EnemyBehaviors } from "./EnemyBehaviors";
+import { EnemyDefinition, EnemyType } from "./types";
+import { EnemyDefinitions } from "./EnemyDefinitions";
 
 export class Enemy extends Phaser.GameObjects.Rectangle {
-  behavior: EnemyBehavior;
+  definition: EnemyDefinition;
   timerEvents: Phaser.Time.TimerEvent[];
 
-  constructor(scene: Phaser.Scene, behavior: EnemyBehavior) {
-    super(scene, Math.random() * 800, 0, 40, 40, 0xff00ff);
-    this.behavior = behavior;
+  constructor(scene: Phaser.Scene, type: EnemyType) {
+    super(scene, 0, 0, 40, 40, 0xff00ff);
+    this.definition = EnemyDefinitions[type];
+
+    const position = this.definition.startPosition();
+    this.x = position.x;
+    this.y = position.y;
 
     this.timerEvents = [
       this.scene.time.addEvent({
@@ -24,9 +28,11 @@ export class Enemy extends Phaser.GameObjects.Rectangle {
   }
 
   update() {
-    EnemyBehaviors[this.behavior](this);
+    this.definition.update(this);
   }
+
   destroy(fromScene?: boolean): void {
     this.timerEvents.forEach((event: Phaser.Time.TimerEvent) => event.remove());
+    super.destroy();
   }
 }

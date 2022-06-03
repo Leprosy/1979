@@ -6,13 +6,17 @@ class SimpleGame {
 
   constructor() {
     const config: Phaser.Types.Core.GameConfig = {
-      width: 800,
-      height: 600,
+      width: 600,
+      height: 800,
       type: Phaser.AUTO,
       parent: "content",
       scene: [Main, Stage],
       title: "A Game",
       version: "0.1",
+      scale: {
+        mode: Phaser.Scale.FIT,
+        autoCenter: Phaser.Scale.CENTER_BOTH,
+      },
     };
 
     this.game = new Phaser.Game(config);
