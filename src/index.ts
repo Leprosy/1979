@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import { gameConfig } from "./config";
 import { Main, Stage } from "./scenes/";
 
 class SimpleGame {
@@ -6,13 +7,13 @@ class SimpleGame {
 
   constructor() {
     const config: Phaser.Types.Core.GameConfig = {
-      width: 600,
-      height: 800,
+      width: gameConfig.width,
+      height: gameConfig.height,
       type: Phaser.AUTO,
       parent: "content",
       scene: [Main, Stage],
-      title: "A Game",
-      version: "0.1",
+      title: gameConfig.title,
+      version: gameConfig.version,
       scale: {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,

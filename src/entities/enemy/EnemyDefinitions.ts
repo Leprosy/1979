@@ -1,10 +1,11 @@
 import { EnemyType, EnemyDefinition } from "./types";
 import { Enemy } from "./Enemy";
+import { gameConfig } from "../../config";
 
 export const EnemyDefinitions: Record<EnemyType, EnemyDefinition> = {
   TopDown: {
     startPosition: () => {
-      return { x: Phaser.Math.RND.between(0, 400), y: 0 };
+      return { x: Phaser.Math.RND.between(0, gameConfig.width), y: 0 };
     },
     update: (enemy: Enemy) => {
       const speed = 5;
@@ -12,7 +13,7 @@ export const EnemyDefinitions: Record<EnemyType, EnemyDefinition> = {
 
       enemy.y += speed;
 
-      if (enemy.y > 400) {
+      if (enemy.y > gameConfig.height) {
         enemy.destroy();
       }
     },
@@ -20,7 +21,7 @@ export const EnemyDefinitions: Record<EnemyType, EnemyDefinition> = {
 
   LeftRight: {
     startPosition: () => {
-      return { x: 100, y: 0 };
+      return { x: Phaser.Math.RND.between(0, gameConfig.width), y: 0 };
     },
     update: (enemy: Enemy) => {
       const speedY = 1;
@@ -30,7 +31,7 @@ export const EnemyDefinitions: Record<EnemyType, EnemyDefinition> = {
       enemy.y += speedY;
       enemy.x += Math.random() * speedX * 2 - speedX;
 
-      if (enemy.y > 400) {
+      if (enemy.y > gameConfig.height) {
         enemy.destroy();
       }
     },
