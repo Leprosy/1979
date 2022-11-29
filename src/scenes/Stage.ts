@@ -4,6 +4,7 @@ import { Bullet } from "../entities/Bullet";
 import { Enemy } from "../entities/enemy";
 import { Explosion } from "../entities/Explosion";
 import { playerController } from "../helpers/PlayerController";
+import { areColliding } from "../helpers/screen";
 
 export class Stage extends Phaser.Scene {
   keys: Phaser.Types.Input.Keyboard.CursorKeys;
@@ -34,7 +35,7 @@ export class Stage extends Phaser.Scene {
     this.explosions = this.add.container();
 
     // Input
-    this.keys = this.input.keyboard.createCursorKeys();
+    this.keys = this.input.keyboard.createCursorKeys(); // TODO: Use a helper for assign keys
     this.keys["a"] = this.input.keyboard.addKey("A");
     this.keys["s"] = this.input.keyboard.addKey("S");
     this.keys["d"] = this.input.keyboard.addKey("D");
@@ -42,23 +43,36 @@ export class Stage extends Phaser.Scene {
 
   update() {
     // Update entities
-    this.enemies.list.forEach((enemy) => enemy.update());
-    this.bullets.list.forEach((bullet) => {
+    this.enemies.each((enemy: Enemy) => enemy.update());
+    this.explosions.each((explosion: Explosion) => explosion.update());
+
+    this.bullets.each((bullet: Bullet) => {
       bullet.update();
+
+      if (areColliding(this.P1, bullet)) {
+        this.explosions.add(
+          new Explosion(this, {
+            x: bullet.x,
+            y: bullet.y,
+          })
+        );
+
+        bullet.destroy();
+      }
     });
     this.explosions.list.forEach((explosion) => explosion.update());
 
     // Check keys
     playerController(this.keys, this.P1, this.speed);
 
-    if (this.keys.a.isDown && this.canSpawn) {
+    if (this.keys["a"].isDown && this.canSpawn) {
       this.canSpawn = false;
       const enemy = new Enemy(this, "TopDown");
       this.enemies.add(enemy);
       this.time.delayedCall(this.cooldown * 1000, () => (this.canSpawn = true), [], this);
       console.log("Enemies:", this.enemies.list);
     }
-    if (this.keys.s.isDown && this.canSpawn) {
+    if (this.keys["s"].isDown && this.canSpawn) {
       this.canSpawn = false;
       const enemy = new Enemy(this, "LeftRight");
       this.enemies.add(enemy);
