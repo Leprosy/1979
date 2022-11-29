@@ -1,6 +1,10 @@
-import { isInsideScreen } from "./screen";
+import { isInsideScreen } from './screen';
 
-export const playerController = (keys: Phaser.Types.Input.Keyboard.CursorKeys, player: Phaser.GameObjects.Rectangle, speed: number) => {
+export const playerController = (
+  keys: Phaser.Types.Input.Keyboard.CursorKeys,
+  player: Phaser.GameObjects.Rectangle,
+  speed: number
+) => {
   let nx = player.x;
   let ny = player.y;
   if (keys.up.isDown) {

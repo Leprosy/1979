@@ -1,8 +1,8 @@
-import Phaser from "phaser";
-import { EnemyDefinition, EnemyType } from "./types";
-import { EnemyDefinitions } from "./EnemyDefinitions";
-import { Bullet } from "../Bullet";
-import { isInsideScreen } from "../../helpers/screen";
+import Phaser from 'phaser';
+import { EnemyDefinition, EnemyType } from './types';
+import { EnemyDefinitions } from './EnemyDefinitions';
+import { Bullet } from '../Bullet';
+import { isInsideScreen } from '../../helpers/screen';
 
 export class Enemy extends Phaser.GameObjects.Rectangle {
   definition: EnemyDefinition;
@@ -25,7 +25,7 @@ export class Enemy extends Phaser.GameObjects.Rectangle {
             const target = { x: this.scene.P1.x, y: this.scene.P1.y };
             const bullet = new Bullet(this.scene, origin, target, 5);
             this.scene.bullets.add(bullet);
-            console.log("Bullets:", this.scene.bullets.list);
+            console.log('Bullets:', this.scene.bullets.list);
           }
         },
         callbackScope: this,

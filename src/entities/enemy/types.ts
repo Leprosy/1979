@@ -1,6 +1,6 @@
-import { Enemy } from "./Enemy";
+import { Enemy } from './Enemy';
 
-export type EnemyType = "TopDown" | "LeftRight" | "Kamikaze" | "Formation1";
+export type EnemyType = 'TopDown' | 'LeftRight' | 'Kamikaze' | 'Formation1';
 
 export type EnemyDefinition = {
   startPosition: () => { x: number; y: number };

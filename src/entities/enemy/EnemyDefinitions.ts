@@ -1,6 +1,6 @@
-import { EnemyType, EnemyDefinition } from "./types";
-import { Enemy } from "./Enemy";
-import { gameConfig } from "../../config";
+import { EnemyType, EnemyDefinition } from './types';
+import { Enemy } from './Enemy';
+import { gameConfig } from '../../config';
 
 export const EnemyDefinitions: Record<EnemyType, EnemyDefinition> = {
   TopDown: {

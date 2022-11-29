@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import Phaser from 'phaser';
 
 export class Explosion extends Phaser.GameObjects.Arc {
   constructor(scene: Phaser.Scene, origin: Phaser.Types.Math.Vector2Like) {
@@ -7,7 +7,7 @@ export class Explosion extends Phaser.GameObjects.Arc {
   }
 
   update() {
-    this.radius += 0.2;
+    this.radius += 0.4;
 
     if (this.radius > 10) {
       this.destroy();

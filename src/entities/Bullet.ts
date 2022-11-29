@@ -1,11 +1,16 @@
-import Phaser from "phaser";
-import { isInsideScreen } from "../helpers/screen";
+import Phaser from 'phaser';
+import { isInsideScreen } from '../helpers/screen';
 
 export class Bullet extends Phaser.GameObjects.Arc {
   speedX: number;
   speedY: number;
 
-  constructor(scene: Phaser.Scene, origin: Phaser.Types.Math.Vector2Like, target: Phaser.Types.Math.Vector2Like, speed: number) {
+  constructor(
+    scene: Phaser.Scene,
+    origin: Phaser.Types.Math.Vector2Like,
+    target: Phaser.Types.Math.Vector2Like,
+    speed: number
+  ) {
     super(scene, origin.x, origin.y, 5);
     this.setFillStyle(0xff0000);
     const angle = Phaser.Math.Angle.BetweenPoints(origin, target);
