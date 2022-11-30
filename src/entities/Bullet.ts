@@ -4,6 +4,7 @@ import { isInsideScreen } from '../helpers/screen';
 export class Bullet extends Phaser.GameObjects.Arc {
   speedX: number;
   speedY: number;
+  isFromPlayer: boolean;
 
   constructor(
     scene: Phaser.Scene,
@@ -16,6 +17,7 @@ export class Bullet extends Phaser.GameObjects.Arc {
     const angle = Phaser.Math.Angle.BetweenPoints(origin, target);
     this.speedX = speed * Math.cos(angle);
     this.speedY = speed * Math.sin(angle);
+    this.isFromPlayer = false;
   }
 
   update() {

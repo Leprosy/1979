@@ -43,13 +43,22 @@ export class Stage extends Phaser.Scene {
 
   update() {
     // Update entities
-    this.enemies.each((enemy: Enemy) => enemy.update());
     this.explosions.each((explosion: Explosion) => explosion.update());
+
+    this.enemies.each((enemy: Enemy) => {
+      enemy.update();
+
+      if (areColliding(this.P1, enemy)) {
+        this.explosions.add(new Explosion(this, { x: enemy.x, y: enemy.y }));
+
+        enemy.destroy();
+      }
+    });
 
     this.bullets.each((bullet: Bullet) => {
       bullet.update();
 
-      if (areColliding(this.P1, bullet)) {
+      if (!bullet.isFromPlayer && areColliding(this.P1, bullet)) {
         this.explosions.add(new Explosion(this, { x: bullet.x, y: bullet.y }));
 
         bullet.destroy();
@@ -80,6 +89,7 @@ export class Stage extends Phaser.Scene {
       const origin = { x: this.P1.x, y: this.P1.y };
       const target = { x: this.P1.x, y: 0 };
       const bullet = new Bullet(this, origin, target, this.speed * 2);
+      bullet.isFromPlayer = true;
       this.bullets.add(bullet);
       this.time.delayedCall(this.cooldown * 1000, () => (this.canFire = true), [], this);
       console.log('Bullets:', this.bullets.list);
