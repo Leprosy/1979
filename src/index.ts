@@ -18,6 +18,12 @@ class SimpleGame {
         mode: Phaser.Scale.FIT,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
+      physics: {
+        default: 'arcade',
+        arcade: {
+          debug: false,
+        },
+      },
     };
 
     this.game = new Phaser.Game(config);
