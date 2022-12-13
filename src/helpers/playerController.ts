@@ -2,7 +2,7 @@ import { isInsideScreen } from './screen';
 
 export const playerController = (
   keys: Phaser.Types.Input.Keyboard.CursorKeys,
-  player: Phaser.GameObjects.Rectangle,
+  player: Phaser.GameObjects.Sprite,
   speed: number
 ) => {
   let nx = player.x;
