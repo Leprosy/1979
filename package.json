@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npx jest --coverage=true",
     "ts": "npx tsc --noEmit --esModuleInterop src/*.ts",
-    "server": "mkdir dist;cp -R ./assets dist/;npx parcel src/index.html"
+    "server": "mkdir dist;cp -R ./assets dist/;npx parcel src/index.html --open"
   },
   "author": "",
   "license": "ISC",
