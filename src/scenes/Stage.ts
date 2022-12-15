@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import Phaser, { Tilemaps } from 'phaser';
 import { Bullet } from '../entities/Bullet';
 import { Enemy } from '../entities/enemy';
 import { Explosion } from '../entities/Explosion';
@@ -6,8 +6,9 @@ import { Player } from '../entities/Player';
 import { playerController } from '../helpers/PlayerController';
 
 export class Stage extends Phaser.Scene {
+  //TODO move this to a definition(same with Enemy, Player, Bullet, etc)?
   keys: Phaser.Types.Input.Keyboard.CursorKeys;
-  P1: Phaser.GameObjects.Sprite;
+  P1: Player;
   speed: number;
   bullets: Phaser.Physics.Arcade.Group;
   enemies: Phaser.Physics.Arcade.Group;
@@ -15,6 +16,8 @@ export class Stage extends Phaser.Scene {
   cooldown: number;
   canFire: boolean;
   canSpawn: boolean;
+  hud: Phaser.GameObjects.BitmapText;
+  score: number;
 
   constructor() {
     super('Stage');
@@ -47,12 +50,15 @@ export class Stage extends Phaser.Scene {
     // Collissions
     this.physics.add.collider(this.P1, this.enemies, (P1, enemy) => {
       this.explosions.add(new Explosion(this, { x: (<Enemy>enemy).x, y: (<Enemy>enemy).y }));
+      (<Player>P1).hp--;
+      this.score += (<Enemy>enemy).points;
       enemy.destroy();
     });
 
     this.physics.add.collider(this.P1, this.bullets, (P1, bullet) => {
       if (!(<Bullet>bullet).isFromPlayer) {
         this.explosions.add(new Explosion(this, { x: (<Bullet>bullet).x, y: (<Bullet>bullet).y }));
+        (<Player>P1).hp--;
         bullet.destroy();
       }
     });
@@ -61,7 +67,8 @@ export class Stage extends Phaser.Scene {
       if ((<Bullet>bullet).isFromPlayer) {
         this.explosions.add(new Explosion(this, { x: (<Bullet>bullet).x, y: (<Bullet>bullet).y }));
         bullet.destroy();
-        if (--(<Enemy>enemy).hp == 0) enemy.destroy();
+        this.score += (<Enemy>enemy).points;
+        (<Enemy>enemy).hp--;
       }
     });
 
@@ -70,11 +77,18 @@ export class Stage extends Phaser.Scene {
     this.keys['a'] = this.input.keyboard.addKey('A');
     this.keys['s'] = this.input.keyboard.addKey('S');
     this.keys['d'] = this.input.keyboard.addKey('D');
+
+    // HUD
+    this.hud = this.add.bitmapText(10, 10, 'font', this.game.config.gameTitle).setOrigin(0);
+    this.score = 0;
   }
 
   update() {
     // Update entities
     this.explosions.each((explosion: Explosion) => explosion.update());
+
+    // Hud
+    this.hud.text = `HP:${this.P1.hp} - Score:${this.score}`;
 
     // Check keys
     playerController(this.keys, this.P1, this.speed);

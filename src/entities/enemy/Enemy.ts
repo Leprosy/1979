@@ -8,16 +8,18 @@ export class Enemy extends Phaser.GameObjects.Sprite {
   definition: EnemyDefinition;
   timerEvents: Phaser.Time.TimerEvent[];
   hp: number;
+  points: number;
 
   constructor(scene: Phaser.Scene, type: EnemyType) {
     super(scene, 0, 0, 'plane', 1);
     this.definition = EnemyDefinitions[type];
 
-    const position = this.definition.startPosition();
+    const position = this.definition.startPosition(); // TODO: Can we deconstruct assign this?
     this.x = position.x;
     this.y = position.y;
     this.angle = position.angle;
     this.hp = this.definition.hp;
+    this.points = this.definition.points;
     this.tint = 0xff0000;
 
     this.timerEvents = [
@@ -41,7 +43,7 @@ export class Enemy extends Phaser.GameObjects.Sprite {
   update() {
     this.definition.update(this);
 
-    if (!isInsideScreen(this.x, this.y)) {
+    if (!isInsideScreen(this.x, this.y) || this.hp == 0) {
       this.destroy();
     }
   }

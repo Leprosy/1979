@@ -7,4 +7,5 @@ export type EnemyDefinition = {
   update: (enemy: Enemy) => void;
   shootChance: number;
   hp: number;
+  points: number;
 };

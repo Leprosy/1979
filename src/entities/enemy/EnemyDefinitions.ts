@@ -12,6 +12,7 @@ export const EnemyDefinitions: Record<EnemyType, EnemyDefinition> = {
     },
     shootChance: 50,
     hp: 1,
+    points: 5,
   },
 
   LeftRight: {
@@ -32,6 +33,7 @@ export const EnemyDefinitions: Record<EnemyType, EnemyDefinition> = {
     },
     shootChance: 90,
     hp: 2,
+    points: 10,
   },
 
   Kamikaze: {
