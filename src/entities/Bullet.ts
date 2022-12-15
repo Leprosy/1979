@@ -13,10 +13,21 @@ export class Bullet extends Phaser.GameObjects.Sprite {
     speed: number
   ) {
     super(scene, origin.x || 0, origin.y || 0, 'bullet');
+
+    // Setup
     const angle = Phaser.Math.Angle.BetweenPoints(origin, target);
     this.speedX = speed * Math.cos(angle);
     this.speedY = speed * Math.sin(angle);
     this.isFromPlayer = false;
+
+    // Animation
+    scene.anims.create({
+      key: 'fire',
+      frames: this.anims.generateFrameNumbers('bullet', { frames: [0, 1] }),
+      frameRate: 8,
+      repeat: -1,
+    });
+    this.play('fire');
   }
 
   update() {

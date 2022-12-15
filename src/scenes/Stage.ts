@@ -39,6 +39,14 @@ export class Stage extends Phaser.Scene {
   create() {
     // Entities
     this.P1 = this.physics.add.sprite(100, 500, 'plane', 5); //this.add.rectangle(100, 500, 40, 40, 0x00ff00);
+    this.anims.create({
+      key: 'idle',
+      frames: this.anims.generateFrameNumbers('plane', { frames: [0, 1] }),
+      frameRate: 8,
+      repeat: -1,
+    });
+    this.P1.play('idle');
+
     this.explosions = this.add.container();
     this.enemies = this.physics.add.group({ runChildUpdate: true });
     this.bullets = this.physics.add.group({ runChildUpdate: true });
