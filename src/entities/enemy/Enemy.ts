@@ -7,6 +7,7 @@ import { isInsideScreen } from '../../helpers/screen';
 export class Enemy extends Phaser.GameObjects.Sprite {
   definition: EnemyDefinition;
   timerEvents: Phaser.Time.TimerEvent[];
+  hp: number;
 
   constructor(scene: Phaser.Scene, type: EnemyType) {
     super(scene, 0, 0, 'plane', 1);
@@ -16,6 +17,7 @@ export class Enemy extends Phaser.GameObjects.Sprite {
     this.x = position.x;
     this.y = position.y;
     this.angle = position.angle;
+    this.hp = this.definition.hp;
     this.tint = 0xff0000;
 
     this.timerEvents = [

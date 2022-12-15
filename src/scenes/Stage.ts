@@ -64,6 +64,14 @@ export class Stage extends Phaser.Scene {
       }
     });
 
+    this.physics.add.collider(this.enemies, this.bullets, (enemy, bullet) => {
+      if ((<Bullet>bullet).isFromPlayer) {
+        this.explosions.add(new Explosion(this, { x: (<Bullet>bullet).x, y: (<Bullet>bullet).y }));
+        bullet.destroy();
+        if (--(<Enemy>enemy).hp == 0) enemy.destroy();
+      }
+    });
+
     // Input
     this.keys = this.input.keyboard.createCursorKeys(); // TODO: Use a helper for assign keys
     this.keys['a'] = this.input.keyboard.addKey('A');

@@ -6,4 +6,5 @@ export type EnemyDefinition = {
   startPosition: () => { x: number; y: number; angle: number };
   update: (enemy: Enemy) => void;
   shootChance: number;
+  hp: number;
 };

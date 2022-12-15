@@ -11,6 +11,7 @@ export const EnemyDefinitions: Record<EnemyType, EnemyDefinition> = {
       enemy.y += 5;
     },
     shootChance: 50,
+    hp: 1,
   },
 
   LeftRight: {
@@ -30,6 +31,7 @@ export const EnemyDefinitions: Record<EnemyType, EnemyDefinition> = {
       }
     },
     shootChance: 90,
+    hp: 2,
   },
 
   Kamikaze: {
@@ -37,11 +39,13 @@ export const EnemyDefinitions: Record<EnemyType, EnemyDefinition> = {
       return { x: 0, y: 0, angle: 0 };
     },
     update: () => {},
+    hp: 1,
   },
   Formation1: {
     startPosition: () => {
       return { x: 0, y: 0, angle: 0 };
     },
     update: () => {},
+    hp: 10,
   },
 };
