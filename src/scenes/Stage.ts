@@ -2,6 +2,7 @@ import Phaser from 'phaser';
 import { Bullet } from '../entities/Bullet';
 import { Enemy } from '../entities/enemy';
 import { Explosion } from '../entities/Explosion';
+import { Player } from '../entities/Player';
 import { playerController } from '../helpers/PlayerController';
 
 export class Stage extends Phaser.Scene {
@@ -38,15 +39,7 @@ export class Stage extends Phaser.Scene {
 
   create() {
     // Entities
-    this.P1 = this.physics.add.sprite(100, 500, 'plane', 5); //this.add.rectangle(100, 500, 40, 40, 0x00ff00);
-    this.anims.create({
-      key: 'idle',
-      frames: this.anims.generateFrameNumbers('plane', { frames: [0, 1] }),
-      frameRate: 8,
-      repeat: -1,
-    });
-    this.P1.play('idle');
-
+    this.P1 = this.physics.add.existing(new Player(this));
     this.explosions = this.add.container();
     this.enemies = this.physics.add.group({ runChildUpdate: true });
     this.bullets = this.physics.add.group({ runChildUpdate: true });
