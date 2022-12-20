@@ -6,7 +6,7 @@ export class Player extends Actor {
     super(scene, 'plane');
 
     // Setup
-    this.hp = 3; // TODO: config?
+    this.hp = 10; // TODO: config?
     this.x = 100;
     this.y = 500;
 

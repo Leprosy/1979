@@ -33,6 +33,7 @@ export class Actor extends Phaser.GameObjects.Sprite {
 
   update() {
     if (this.hp <= 0 && this.anims && this.anims.getName() != 'death') {
+      console.log('DEA', this);
       this.play('death');
     }
   }
