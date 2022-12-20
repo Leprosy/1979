@@ -28,7 +28,7 @@ export class Enemy extends Actor {
       this.scene.time.addEvent({
         delay: 500, // TODO: game tics in config
         callback: () => {
-          if (Math.random() * 100 < this.definition.shootChance) {
+          if (Math.random() * 100 < this.definition.shootChance && !this.isDead()) {
             const origin = { x: this.x, y: this.y };
             const target = { x: this.scene.P1.x, y: this.scene.P1.y };
             const bullet = new Bullet(this.scene, origin, target, 5); // TODO: speed in enemy definition

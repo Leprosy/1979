@@ -49,6 +49,8 @@ export class Stage extends Phaser.Scene {
 
     // Collissions
     this.physics.add.collider(this.P1, this.enemies, (P1, enemy) => {
+      if (P1.isDead() || enemy.isDead()) return;
+
       this.explosions.add(new Explosion(this, { x: (<Enemy>enemy).x, y: (<Enemy>enemy).y }));
       (<Player>P1).hp -= (<Enemy>enemy).hp;
       this.score += (<Enemy>enemy).points;
@@ -56,6 +58,8 @@ export class Stage extends Phaser.Scene {
     });
 
     this.physics.add.collider(this.P1, this.bullets, (P1, bullet) => {
+      if (P1.isDead()) return;
+
       if (!(<Bullet>bullet).isFromPlayer) {
         this.explosions.add(new Explosion(this, { x: (<Bullet>bullet).x, y: (<Bullet>bullet).y }));
         (<Player>P1).hp--;
@@ -64,7 +68,7 @@ export class Stage extends Phaser.Scene {
     });
 
     this.physics.add.collider(this.enemies, this.bullets, (enemy, bullet) => {
-      if ((<Bullet>bullet).isFromPlayer) {
+      if ((<Bullet>bullet).isFromPlayer && !enemy.isDead()) {
         this.explosions.add(new Explosion(this, { x: (<Bullet>bullet).x, y: (<Bullet>bullet).y }));
         bullet.destroy();
         this.score += (<Enemy>enemy).points;
@@ -92,7 +96,7 @@ export class Stage extends Phaser.Scene {
     this.hud.text = `HP:${this.P1.hp} - Score:${this.score}`;
 
     // Check keys
-    playerController(this.keys, this.P1, this.speed);
+    if (!this.P1.isDead()) playerController(this.keys, this.P1, this.speed);
 
     if (this.keys['a'].isDown && this.canSpawn) {
       this.canSpawn = false;
@@ -109,7 +113,7 @@ export class Stage extends Phaser.Scene {
       console.log('Enemies:', this.enemies.getChildren());
     }
 
-    if (this.keys.space.isDown && this.canFire) {
+    if (this.keys.space.isDown && this.canFire && !this.P1.isDead()) {
       this.canFire = false;
       const origin = { x: this.P1.x, y: this.P1.y };
       const target = { x: this.P1.x, y: 0 };
