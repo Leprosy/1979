@@ -12,8 +12,9 @@ export class Enemy extends Phaser.GameObjects.Sprite {
 
   constructor(scene: Phaser.Scene, type: EnemyType) {
     super(scene, 0, 0, 'plane', 1);
-    this.definition = EnemyDefinitions[type];
 
+    // Setup
+    this.definition = EnemyDefinitions[type];
     const position = this.definition.startPosition(); // TODO: Can we deconstruct assign this?
     this.x = position.x;
     this.y = position.y;
@@ -22,6 +23,22 @@ export class Enemy extends Phaser.GameObjects.Sprite {
     this.points = this.definition.points;
     this.tint = 0xff0000;
 
+    // Animations
+    // TODO: can we reuse these?
+    this.anims.create({
+      key: 'idle',
+      frames: this.anims.generateFrameNumbers('plane', { frames: [0, 1] }),
+      frameRate: 8,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'death',
+      frames: this.anims.generateFrameNumbers('plane', { frames: [6, 7, 8, 9, 10, 11] }),
+      frameRate: 8,
+      repeat: 0,
+    });
+
+    // Events
     this.timerEvents = [
       this.scene.time.addEvent({
         delay: 500, // TODO: game tics in config
@@ -38,13 +55,23 @@ export class Enemy extends Phaser.GameObjects.Sprite {
         loop: true,
       }),
     ];
+
+    this.on('animationcomplete', () => {
+      if (this.anims.getName() == 'death') {
+        this.destroy();
+      }
+    });
   }
 
   update() {
     this.definition.update(this);
 
-    if (!isInsideScreen(this.x, this.y) || this.hp == 0) {
+    if (!isInsideScreen(this.x, this.y)) {
       this.destroy();
+    }
+
+    if (this.hp <= 0 && this.anims && !(this.anims.getName() == 'death')) {
+      this.play('death');
     }
   }
 

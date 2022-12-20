@@ -50,9 +50,9 @@ export class Stage extends Phaser.Scene {
     // Collissions
     this.physics.add.collider(this.P1, this.enemies, (P1, enemy) => {
       this.explosions.add(new Explosion(this, { x: (<Enemy>enemy).x, y: (<Enemy>enemy).y }));
-      (<Player>P1).hp--;
+      (<Player>P1).hp -= (<Enemy>enemy).hp;
       this.score += (<Enemy>enemy).points;
-      enemy.destroy();
+      (<Enemy>enemy).hp == 0;
     });
 
     this.physics.add.collider(this.P1, this.bullets, (P1, bullet) => {
@@ -86,6 +86,7 @@ export class Stage extends Phaser.Scene {
   update() {
     // Update entities
     this.explosions.each((explosion: Explosion) => explosion.update());
+    this.P1.update();
 
     // Hud
     this.hud.text = `HP:${this.P1.hp} - Score:${this.score}`;
