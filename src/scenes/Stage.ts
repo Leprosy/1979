@@ -22,7 +22,7 @@ export class Stage extends Phaser.Scene {
   constructor() {
     super('Stage');
     this.speed = 5;
-    this.cooldown = 0.5;
+    this.cooldown = 0.2;
     this.canFire = true;
     this.canSpawn = true;
   }
