@@ -3,40 +3,25 @@ import { EnemyDefinition, EnemyType } from './types';
 import { EnemyDefinitions } from './EnemyDefinitions';
 import { Bullet } from '../Bullet';
 import { isInsideScreen } from '../../helpers/screen';
+import { Actor } from '../Actor';
 
-export class Enemy extends Phaser.GameObjects.Sprite {
+export class Enemy extends Actor {
   definition: EnemyDefinition;
   timerEvents: Phaser.Time.TimerEvent[];
-  hp: number;
   points: number;
 
   constructor(scene: Phaser.Scene, type: EnemyType) {
-    super(scene, 0, 0, 'plane', 1);
+    super(scene, 'plane');
 
     // Setup
     this.definition = EnemyDefinitions[type];
-    const position = this.definition.startPosition(); // TODO: Can we deconstruct assign this?
+    const position = this.definition.startPosition();
     this.x = position.x;
     this.y = position.y;
     this.angle = position.angle;
     this.hp = this.definition.hp;
     this.points = this.definition.points;
-    this.tint = 0xff0000;
-
-    // Animations
-    // TODO: can we reuse these?
-    this.anims.create({
-      key: 'idle',
-      frames: this.anims.generateFrameNumbers('plane', { frames: [0, 1] }),
-      frameRate: 8,
-      repeat: -1,
-    });
-    this.anims.create({
-      key: 'death',
-      frames: this.anims.generateFrameNumbers('plane', { frames: [6, 7, 8, 9, 10, 11] }),
-      frameRate: 8,
-      repeat: 0,
-    });
+    this.tint = 0xff0000; // TODO: Debug only, add proper sprites;
 
     // Events
     this.timerEvents = [
@@ -55,23 +40,15 @@ export class Enemy extends Phaser.GameObjects.Sprite {
         loop: true,
       }),
     ];
-
-    this.on('animationcomplete', () => {
-      if (this.anims.getName() == 'death') {
-        this.destroy();
-      }
-    });
   }
 
   update() {
+    super.update();
+
     this.definition.update(this);
 
     if (!isInsideScreen(this.x, this.y)) {
       this.destroy();
-    }
-
-    if (this.hp <= 0 && this.anims && !(this.anims.getName() == 'death')) {
-      this.play('death');
     }
   }
 
