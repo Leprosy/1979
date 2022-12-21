@@ -9,3 +9,8 @@ export type EnemyDefinition = {
   hp: number;
   points: number;
 };
+
+export type StageEvent = {
+  enemy: EnemyType;
+  number: number;
+};
