@@ -52,7 +52,7 @@ export class Stage extends Phaser.Scene {
       delay: 1000,
       loop: true,
       callback: () => {
-        console.log("Generators": this.generators);
+        console.log('Generators', this.generators);
         const time = Math.floor(this.time.now / 1000);
 
         if (this.stageData[time] != undefined) {
