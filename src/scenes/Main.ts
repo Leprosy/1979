@@ -13,6 +13,7 @@ export class Main extends Phaser.Scene {
 
   preload() {
     this.load.image('logo', 'assets/logo.png');
+    this.load.image('tiles', 'assets/sprites/tiles.png');
     this.load.bitmapFont('font', 'assets/fonts/arcade.png', 'assets/fonts/arcade.xml');
     this.load.spritesheet({
       key: 'plane',

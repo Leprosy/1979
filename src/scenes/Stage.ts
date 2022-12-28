@@ -1,9 +1,10 @@
-import Phaser, { Tilemaps } from 'phaser';
+import Phaser from 'phaser'; // TODO: entities imports in one line?
 import { Bullet } from '../entities/Bullet';
 import { Enemy } from '../entities/enemy';
 import { StageEvent } from '../entities/enemy/types';
 import { Explosion } from '../entities/Explosion';
 import { Player } from '../entities/Player';
+import { ScrollMap } from '../entities/ScrollMap';
 import { playerController } from '../helpers/PlayerController';
 
 export class Stage extends Phaser.Scene {
@@ -19,6 +20,7 @@ export class Stage extends Phaser.Scene {
   canSpawn: boolean;
   hud: Phaser.GameObjects.BitmapText;
   score: number;
+  scrollMap: ScrollMap;
 
   stageData: Record<number, StageEvent>;
   generators: StageEvent[];
@@ -39,7 +41,7 @@ export class Stage extends Phaser.Scene {
       10: { enemy: 'LeftRight', number: 5 },
       15: { enemy: 'TopDown', number: 10 },
       20: { enemy: 'LeftRight', number: 5 },
-      20: { enemy: 'TopDown', number: 5 },
+      21: { enemy: 'TopDown', number: 5 },
       30: { enemy: 'LeftRight', number: 15 },
       35: { enemy: 'TopDown', number: 20 },
       40: { enemy: 'LeftRight', number: 30 },
@@ -72,6 +74,7 @@ export class Stage extends Phaser.Scene {
     });
 
     // Entities
+    this.scrollMap = new ScrollMap(this);
     this.P1 = this.physics.add.existing(new Player(this));
     this.explosions = this.add.container();
     this.enemies = this.physics.add.group({ runChildUpdate: true });
@@ -122,6 +125,7 @@ export class Stage extends Phaser.Scene {
     // Update entities
     this.explosions.each((explosion: Explosion) => explosion.update());
     this.P1.update();
+    this.scrollMap.update();
 
     // Hud
     this.hud.text = `HP:${this.P1.hp} - Score:${this.score}`;
