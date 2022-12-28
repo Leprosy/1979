@@ -14,6 +14,16 @@ export class Main extends Phaser.Scene {
   preload() {
     this.load.image('logo', 'assets/logo.png');
     this.load.bitmapFont('font', 'assets/fonts/arcade.png', 'assets/fonts/arcade.xml');
+    this.load.spritesheet({
+      key: 'plane',
+      url: 'assets/sprites/plane.png',
+      frameConfig: { frameWidth: 50, frameHeight: 40 },
+    });
+    this.load.spritesheet({
+      key: 'bullet',
+      url: 'assets/sprites/bullet.png',
+      frameConfig: { frameWidth: 10, frameHeight: 10 },
+    });
   }
 
   create() {

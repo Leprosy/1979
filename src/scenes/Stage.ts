@@ -32,23 +32,17 @@ export class Stage extends Phaser.Scene {
   }
 
   preload() {
-    // Sprites
-    this.load.spritesheet({
-      key: 'plane',
-      url: 'assets/sprites/plane.png',
-      frameConfig: { frameWidth: 50, frameHeight: 40 },
-    });
-    this.load.spritesheet({
-      key: 'bullet',
-      url: 'assets/sprites/bullet.png',
-      frameConfig: { frameWidth: 10, frameHeight: 10 },
-    });
-
     // Stage data
     // TODO: Load this from a file
     this.stageData = {
-      10: { enemy: 'TopDown', number: 5 },
+      5: { enemy: 'TopDown', number: 5 },
+      10: { enemy: 'LeftRight', number: 5 },
+      15: { enemy: 'TopDown', number: 10 },
       20: { enemy: 'LeftRight', number: 5 },
+      20: { enemy: 'TopDown', number: 5 },
+      30: { enemy: 'LeftRight', number: 15 },
+      35: { enemy: 'TopDown', number: 20 },
+      40: { enemy: 'LeftRight', number: 30 },
     };
   }
 
