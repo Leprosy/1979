@@ -28,13 +28,13 @@ export class Main extends Phaser.Scene {
   }
 
   create() {
-    this.scene.start('Stage'); // DEBUG ONLY
+    //this.scene.start('Stage'); // DEBUG ONLY
 
     // Display something
-    const logo = this.add.image(400, 100, 'logo');
-    const text1 = this.add.bitmapText(400, 200, 'font', this.game.config.gameTitle).setOrigin(0.5);
-    const text2 = this.add.bitmapText(400, 300, 'font', 'Press <Space>').setOrigin(0.5).setTint(0xff0066);
-    this.add.text(400, 500, `Version ${this.game.config.gameVersion} ${new Date()}`, textStyles.debug).setOrigin(0.5);
+    const logo = this.add.image(300, 100, 'logo');
+    const text1 = this.add.bitmapText(300, 200, 'font', this.game.config.gameTitle).setOrigin(0.5);
+    const text2 = this.add.bitmapText(300, 300, 'font', 'Press <Space>').setOrigin(0.5).setTint(0xff0066);
+    this.add.text(300, 500, `Version ${this.game.config.gameVersion} ${new Date()}`, textStyles.debug).setOrigin(0.5);
 
     // Animations
     this.tweens.add({
