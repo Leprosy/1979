@@ -1,5 +1,5 @@
 export const gameConfig = {
-  title: 'A game',
+  title: 'A plane battle',
   version: '0.1',
   width: 600,
   height: 800,
