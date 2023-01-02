@@ -21,8 +21,6 @@ export class Stage extends Phaser.Scene {
   hud: Phaser.GameObjects.BitmapText;
   score: number;
   scrollMap: ScrollMap;
-
-  stageData: Record<number, StageEvent>;
   generators: StageEvent[];
 
   constructor() {
@@ -35,17 +33,7 @@ export class Stage extends Phaser.Scene {
 
   preload() {
     // Stage data
-    // TODO: Load this from a file
-    this.stageData = {
-      5: { enemy: 'TopDown', number: 5 },
-      10: { enemy: 'LeftRight', number: 5 },
-      15: { enemy: 'TopDown', number: 10 },
-      20: { enemy: 'LeftRight', number: 5 },
-      21: { enemy: 'TopDown', number: 5 },
-      30: { enemy: 'LeftRight', number: 15 },
-      35: { enemy: 'TopDown', number: 20 },
-      40: { enemy: 'LeftRight', number: 30 },
-    };
+    this.load.json('jsonMap', 'assets/maps/map1.json'); // TODO: dynamic name, depending of the stage
   }
 
   create() {
@@ -57,9 +45,9 @@ export class Stage extends Phaser.Scene {
         console.log('Generators', this.generators);
         const time = Math.floor(this.time.now / 1000);
 
-        if (this.stageData[time] != undefined) {
-          console.log('StageEvent added', this.stageData[time]);
-          this.generators.push(this.stageData[time]);
+        if (this.scrollMap.events[time] != undefined) {
+          console.log('StageEvent added', this.scrollMap.events[time]);
+          this.generators.push(this.scrollMap.events[time]);
         }
 
         this.generators.forEach((item: StageEvent) => {
@@ -74,7 +62,7 @@ export class Stage extends Phaser.Scene {
     });
 
     // Entities
-    this.scrollMap = new ScrollMap(this);
+    this.scrollMap = new ScrollMap(this, this.cache.json.get('jsonMap'));
     this.P1 = this.physics.add.existing(new Player(this));
     this.explosions = this.add.container();
     this.enemies = this.physics.add.group({ runChildUpdate: true });
