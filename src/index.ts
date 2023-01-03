@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import { gameConfig } from './config';
-import { Main, Stage } from './scenes/';
+import { Main, Stage, Inter } from './scenes/';
 
 class SimpleGame {
   game: Phaser.Game;
@@ -11,7 +11,7 @@ class SimpleGame {
       height: gameConfig.height,
       type: Phaser.AUTO,
       parent: 'content',
-      scene: [Main, Stage],
+      scene: [Main, Stage, Inter],
       title: gameConfig.title,
       version: gameConfig.version,
       scale: {

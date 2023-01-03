@@ -12,6 +12,29 @@ export class Main extends Phaser.Scene {
   }
 
   preload() {
+    var progressBar = this.add.graphics();
+    var progressBox = this.add.graphics();
+    var progressText = this.add.text(300, 400, '').setOrigin(0.5);
+    var progressFile = '';
+    progressBox.fillStyle(0x222222, 0.8);
+    progressBox.fillRect(240, 270, 320, 50);
+    this.load.on('progress', function (value) {
+      progressText.text = `Loading %${Math.round(value * 100)}: ${progressFile}`;
+      progressBar.clear();
+      progressBar.fillStyle(0xffffff, 1);
+      progressBar.fillRect(250, 280, 300 * value, 30);
+      console.log('Loading', Math.round(value * 100));
+    });
+    this.load.on('fileprogress', function (file) {
+      progressFile = file.src;
+      console.log('Loading', file);
+    });
+    this.load.on('complete', function () {
+      progressBar.destroy();
+      progressBox.destroy();
+      progressText.destroy();
+    });
+
     this.load.image('logo', 'assets/logo.png');
     this.load.image('tiles', 'assets/sprites/tiles.png');
     this.load.bitmapFont('font', 'assets/fonts/arcade.png', 'assets/fonts/arcade.xml');
@@ -25,11 +48,11 @@ export class Main extends Phaser.Scene {
       url: 'assets/sprites/bullet.png',
       frameConfig: { frameWidth: 10, frameHeight: 10 },
     });
+    this.load.json('jsonMap1', `assets/maps/map1.json`);
+    this.load.json('jsonMap2', `assets/maps/map2.json`);
   }
 
   create() {
-    //this.scene.start('Stage'); // DEBUG ONLY
-
     // Display something
     const logo = this.add.image(300, 100, 'logo');
     const text1 = this.add.bitmapText(300, 200, 'font', this.game.config.gameTitle).setOrigin(0.5);
@@ -63,7 +86,7 @@ export class Main extends Phaser.Scene {
   update() {
     if (this.keys['space'].isDown) {
       console.log('Space pressed on Main');
-      this.scene.start('Stage');
+      this.scene.start('Inter', { level: 1 });
     }
 
     if (this.keys['a'].isDown) {

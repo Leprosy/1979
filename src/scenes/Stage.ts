@@ -20,21 +20,21 @@ export class Stage extends Phaser.Scene {
   canSpawn: boolean;
   hud: Phaser.GameObjects.BitmapText;
   score: number;
+  level: number;
   scrollMap: ScrollMap;
   generators: StageEvent[];
 
   constructor() {
     super('Stage');
+    this.level = 1;
     this.speed = 5;
     this.cooldown = 0.2;
     this.canFire = true;
     this.canSpawn = true;
+    console.log('OAW stage const', this);
   }
 
-  preload() {
-    // Stage data
-    this.load.json('jsonMap', 'assets/maps/map1.json'); // TODO: dynamic name, depending of the stage
-  }
+  preload() {}
 
   create() {
     // Events
@@ -62,7 +62,7 @@ export class Stage extends Phaser.Scene {
     });
 
     // Entities
-    this.scrollMap = new ScrollMap(this, this.cache.json.get('jsonMap'));
+    this.scrollMap = new ScrollMap(this, this.cache.json.get(`jsonMap${this.level}`));
     this.P1 = this.physics.add.existing(new Player(this));
     this.explosions = this.add.container();
     this.enemies = this.physics.add.group({ runChildUpdate: true });
@@ -107,6 +107,8 @@ export class Stage extends Phaser.Scene {
     // HUD
     this.hud = this.add.bitmapText(10, 10, 'font', this.game.config.gameTitle).setOrigin(0);
     this.score = 0;
+
+    console.log('OAW stage create', this);
   }
 
   update() {
@@ -130,6 +132,12 @@ export class Stage extends Phaser.Scene {
       this.bullets.add(bullet, true);
       this.time.delayedCall(this.cooldown * 1000, () => (this.canFire = true), [], this);
       console.log('Bullets:', this.bullets.getChildren());
+    }
+
+    // Debug only
+    if (this.keys.a.isDown) {
+      this.level++;
+      this.scene.start('Inter', { level: this.level });
     }
   }
 }
